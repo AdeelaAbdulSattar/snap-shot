@@ -4,8 +4,9 @@ import PhotoContextProvider from "./components/PhotoContext";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 import Item from "./components/Item";
-import "./index.css";
+import "./index.scss";
 
 class Index extends Component {
   handleSubmit = (e, history, searchInput) => {
@@ -34,8 +35,20 @@ class Index extends Component {
                 path="/"
                 render={() => <Redirect to="/mountain" />}
               />
+              <Route
+                path="/mountain"
+                render={() => <Item searchTerm="mountain" />}
+              />
               <Route path="/food" render={() => <Item searchTerm="food" />} />
               <Route path="/bird" render={() => <Item searchTerm="bird" />} />
+
+              <Route component={NotFound} />
+              <Route
+                path="/search/:searchInput"
+                render={(props) => (
+                  <Search searchTerm={props.match.params.searchInput} />
+                )}
+              />
               <Route component={NotFound} />
             </Switch>
           </div>
