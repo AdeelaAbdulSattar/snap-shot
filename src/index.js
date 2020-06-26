@@ -1,17 +1,59 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import PhotoContextProvider from "./components/PhotoContext";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import Header from "./components/Header";
+import NotFound from "./components/NotFound";
+import Search from "./components/Search";
+import Item from "./components/Item";
+import "./index.scss";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class Index extends Component {
+  handleSubmit = (e, history, searchInput) => {
+    e.preventDefault();
+    e.currentTarget.reset();
+    let url = `/search/${searchInput}`;
+    history.push(url);
+  };
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  render() {
+    return (
+      <PhotoContextProvider>
+        <HashRouter basename="/SnapScout">
+          <div className="container">
+            <Route
+              render={(props) => (
+                <Header
+                  handleSubmit={this.handleSubmit}
+                  history={props.history}
+                />
+              )}
+            />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => <Redirect to="/mountain" />}
+              />
+              {/* <Route
+                path="/mountain"
+                render={() => <Item searchTerm="mountain" />}
+              /> */}
+              <Route path="/food" render={() => <Item searchTerm="food" />} />
+              <Route path="/bird" render={() => <Item searchTerm="bird" />} />
+
+              <Route
+                path="/search/:searchInput"
+                render={(props) => (
+                  <Search searchTerm={props.match.params.searchInput} />
+                )}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </HashRouter>
+      </PhotoContextProvider>
+    );
+  }
+}
+ReactDOM.render(<Index />, document.getElementById("root"));
