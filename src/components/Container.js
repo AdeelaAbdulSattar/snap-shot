@@ -4,8 +4,9 @@ import Gallery from "./Gallery";
 import Loader from "./Loader";
 
 const Container = ({ searchTerm }) => {
-  const { images, loading, runSearch } = useContext(PhotoContext);
+  const [images, loading, runSearch] = useContext(PhotoContext);
   useEffect(() => {
+    console.log("Container:" + images);
     runSearch(searchTerm);
   }, [searchTerm]);
   return (

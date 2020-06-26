@@ -35,14 +35,13 @@ class Index extends Component {
                 path="/"
                 render={() => <Redirect to="/mountain" />}
               />
-              <Route
+              {/* <Route
                 path="/mountain"
                 render={() => <Item searchTerm="mountain" />}
-              />
+              /> */}
               <Route path="/food" render={() => <Item searchTerm="food" />} />
               <Route path="/bird" render={() => <Item searchTerm="bird" />} />
 
-              <Route component={NotFound} />
               <Route
                 path="/search/:searchInput"
                 render={(props) => (

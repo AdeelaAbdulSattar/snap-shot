@@ -18,10 +18,9 @@ const PhotoContextProvider = (props) => {
       .catch((error) => {
         console.log("Error", error);
       });
-    console.log("Working PhotoContext");
   };
   return (
-    <PhotoContext.Provider value={(images, loading, runSearch)}>
+    <PhotoContext.Provider value={[images, loading, runSearch]}>
       {props.children}
     </PhotoContext.Provider>
   );
